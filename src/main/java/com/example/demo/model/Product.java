@@ -42,6 +42,7 @@ public class Product {
     private String shortDescription;
 
     private String description;
+    private String productcol;
 
     @Column(name = "cate_id")
     private int cateId;
@@ -57,6 +58,14 @@ public class Product {
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    public String getProductcol() {
+        return productcol;
+    }
+
+    public void setProductcol(String productcol) {
+        this.productcol = productcol;
+    }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;

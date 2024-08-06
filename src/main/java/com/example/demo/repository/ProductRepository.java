@@ -15,10 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p ORDER BY p.createdAt DESC LIMIT 8")
     List<Product> findNewProducts();
 
-    @Query("SELECT p FROM Product p ORDER BY p.view DESC LIMIT 10")
+    @Query("SELECT p FROM Product p ORDER BY p.view DESC LIMIT 8")
     List<Product> findTopViewedProducts();
 
     @Query("SELECT p FROM Product p WHERE p.cateId = :categoryId ORDER BY p.sold DESC ")
-    List<Product> findProductsByCategory();
+    List<Product> findProductsByCategory(int categoryId);
+
 
 }

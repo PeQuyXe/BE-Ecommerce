@@ -21,6 +21,7 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
@@ -42,7 +43,8 @@ public class ProductService {
     public List<Product> getTopViewedProducts() {
         return productRepository.findTopViewedProducts();
     }
-    public List<Product> getRelateProducts() {
-        return productRepository.findProductsByCategory();
+
+    public List<Product> getProductsByCategory(int categoryId) {
+        return productRepository.findProductsByCategory(categoryId);
     }
 }

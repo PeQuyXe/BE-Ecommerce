@@ -40,6 +40,10 @@ public class ProductController {
             return null; // handle not found case
         }
     }
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable int categoryId) {
+        return productService.getProductsByCategory(categoryId);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
@@ -62,9 +66,5 @@ public class ProductController {
         List<Product> products = productService.getTopViewedProducts();
         return ResponseEntity.ok(products);
     }
-    @GetMapping("relate_product")
-    public ResponseEntity<List<Product>> getRelateProducts() {
-        List<Product> products = productService.getRelateProducts();
-        return ResponseEntity.ok(products);
-    }
+
 }
