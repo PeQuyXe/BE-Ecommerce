@@ -8,63 +8,85 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    // Lấy tất cả sản phẩm
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/product/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    // Lấy thông tin sản phẩm theo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
     }
 
+    // Thêm sản phẩm mới
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        Product savedProduct = productService.saveProduct(product);
+        return ResponseEntity.ok(savedProduct);
     }
 
+    // Cập nhật sản phẩm theo ID
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        if (productService.getProductById(id) != null) {
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable Long id, @RequestBody Product product) {
+        Product existingProduct = productService.getProductById(id);
+        if (existingProduct != null) {
             product.setId(id);
-            return productService.saveProduct(product);
+            Product updatedProduct = productService.saveProduct(product);
+            return ResponseEntity.ok(updatedProduct);
         } else {
-            return null; // handle not found case
+            return ResponseEntity.notFound().build(); // Trả về 404 nếu không tìm thấy
         }
     }
+
+    // Lấy sản phẩm theo danh mục (categoryId)
     @GetMapping("/category/{categoryId}")
-    public List<Product> getProductsByCategory(@PathVariable int categoryId) {
-        return productService.getProductsByCategory(categoryId);
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable int categoryId) {
+        List<Product> products = productService.getProductsByCategory(categoryId);
+        return ResponseEntity.ok(products);
     }
 
+    // Xóa sản phẩm theo ID
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        Product existingProduct = productService.getProductById(id);
+        if (existingProduct != null) {
+            productService.deleteProduct(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build(); // Trả về 404 nếu không tìm thấy
+        }
     }
-    @GetMapping("product_sold")
+
+    // Lấy sản phẩm bán chạy nhất
+    @GetMapping("/top-sold")
     public ResponseEntity<List<Product>> getTopSoldProducts() {
         List<Product> products = productService.getTopSoldProducts();
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("new_product")
+    // Lấy sản phẩm mới nhất
+    @GetMapping("/new")
     public ResponseEntity<List<Product>> getNewProducts() {
         List<Product> products = productService.getNewProducts();
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("view_product")
+    // Lấy sản phẩm được xem nhiều nhất
+    @GetMapping("/top-viewed")
     public ResponseEntity<List<Product>> getTopViewedProducts() {
         List<Product> products = productService.getTopViewedProducts();
         return ResponseEntity.ok(products);
     }
-
 }

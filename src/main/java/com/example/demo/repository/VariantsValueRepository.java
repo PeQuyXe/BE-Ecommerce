@@ -1,0 +1,11 @@
+package com.example.demo.repository;
+import com.example.demo.model.VariantsValue;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface VariantsValueRepository extends JpaRepository<VariantsValue, Long> {
+    List<VariantsValue> findByProductVariant_Id(Integer productVariantId);
+}
