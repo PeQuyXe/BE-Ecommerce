@@ -28,9 +28,8 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-src/main/resources/ecm-app-35a85-firebase-adminsdk-m9sbj-361b235298.json:1
+!**/src/main/**/resources/ecm-app-35a85-firebase-adminsdk-m9sbj-361b235298.json
 
-src/main/resources/ecm-app-35a85-firebase-adminsdk-m9sbj-361b235298.json
 
 
 ### VS Code ###
@@ -38,3 +37,4 @@ src/main/resources/ecm-app-35a85-firebase-adminsdk-m9sbj-361b235298.json
 
 
 
+src/main/resources/ecm-app-35a85-firebase-adminsdk-m9sbj-361b235298.json
