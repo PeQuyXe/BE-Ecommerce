@@ -60,9 +60,9 @@ public class AuthService {
     }
 
 
-    public String generateRefreshToken(String email) {
-        return jwtTokenUtil.generateRefreshToken(email);
-    }
+//    public String generateRefreshToken(String email) {
+//        return jwtTokenUtil.generateRefreshToken(email);
+//    }
 
     public boolean validateRefreshToken(String refreshToken) {
         return jwtTokenUtil.validateToken(refreshToken);
