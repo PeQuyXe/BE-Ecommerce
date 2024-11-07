@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface VariantsValueRepository extends JpaRepository<VariantsValue, Long> {
+public interface VariantsValueRepository extends JpaRepository<VariantsValue, Integer> {
     List<VariantsValue> findByProductVariant_Id(Integer productVariantId);
 }

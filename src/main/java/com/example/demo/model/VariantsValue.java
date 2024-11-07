@@ -10,7 +10,7 @@ import lombok.*;
 public class VariantsValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "product_variant_id", nullable = false)

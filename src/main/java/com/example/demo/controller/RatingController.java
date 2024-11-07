@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ratings")
@@ -18,20 +17,9 @@ public class RatingController {
 
     // GET: Lấy danh sách đánh giá cho sản phẩm
     @GetMapping("/{prodId}")
-    public List<Rating> getRatingsByProductId(@PathVariable Long prodId) {
+    public List<Rating> getRatingsByProductId(@PathVariable Integer prodId) {
         return ratingService.getRatingsByProductId(prodId);
     }
-
-    // Lấy đánh giá theo người dùng (kèm fullname)
-//    @GetMapping("/user/{userId}")
-//    public List<String> getRatingsByUserId(@PathVariable Long userId) {
-//        return ratingService.getRatingsByUserId(userId).stream()
-//                .map(rating -> String.format("User: %s - Rating: %d sao , Comment: %s",
-//                        rating.getUser().getFullname(),
-//                        rating.getStar(),
-//                        rating.getComment()))
-//                .collect(Collectors.toList());
-//    }
 
     // POST: Thêm đánh giá mới
     @PostMapping
@@ -42,7 +30,7 @@ public class RatingController {
 
     // PUT: Cập nhật đánh giá
     @PutMapping("/{id}")
-    public ResponseEntity<Rating> updateRating(@PathVariable Long id, @RequestBody Rating rating) {
+    public ResponseEntity<Rating> updateRating(@PathVariable Integer id, @RequestBody Rating rating) {
         return ratingService.updateRating(id, rating)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -50,7 +38,7 @@ public class RatingController {
 
     // DELETE: Xóa đánh giá
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRating(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRating(@PathVariable Integer id) {
         ratingService.deleteRating(id);
         return ResponseEntity.noContent().build();
     }

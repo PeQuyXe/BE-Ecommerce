@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p ORDER BY p.sold DESC LIMIT 10")
     List<Product> findTopSoldProducts();
 
@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTopViewedProducts();
 
     @Query("SELECT p FROM Product p WHERE p.cateId = :categoryId ORDER BY p.sold DESC ")
-    List<Product> findProductsByCategory(int categoryId);
+    List<Product> findProductsByCategory(Integer categoryId);
 
 
 }

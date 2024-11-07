@@ -14,11 +14,11 @@ public class RatingService {
     @Autowired
     private RatingRepository ratingRepository;
 
-    public List<Rating> getRatingsByProductId(Long prodId) {
+    public List<Rating> getRatingsByProductId(Integer prodId) {
         return ratingRepository.findByProdId(prodId);
     }
 
-    public List<Rating> getRatingsByUserId(Long userId) {
+    public List<Rating> getRatingsByUserId(Integer userId) {
         return ratingRepository.findByUserId(userId);
     }
 
@@ -26,7 +26,7 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
-    public Optional<Rating> updateRating(Long id, Rating ratingDetails) {
+    public Optional<Rating> updateRating(Integer id, Rating ratingDetails) {
         return ratingRepository.findById(id)
                 .map(rating -> {
                     rating.setStar(ratingDetails.getStar());
@@ -36,7 +36,7 @@ public class RatingService {
                 });
     }
 
-    public void deleteRating(Long id) {
+    public void deleteRating(Integer id) {
         ratingRepository.deleteById(id);
     }
 }

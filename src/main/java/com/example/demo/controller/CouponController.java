@@ -22,7 +22,7 @@ public class CouponController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Coupon> getCouponById(@PathVariable Long id) {
+    public ResponseEntity<Coupon> getCouponById(@PathVariable Integer id) {
         Optional<Coupon> coupon = couponService.getCouponById(id);
         return coupon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -33,7 +33,7 @@ public class CouponController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Coupon> updateCoupon(@PathVariable Long id, @RequestBody Coupon couponDetails) {
+    public ResponseEntity<Coupon> updateCoupon(@PathVariable Integer id, @RequestBody Coupon couponDetails) {
         Optional<Coupon> coupon = couponService.getCouponById(id);
         if (coupon.isPresent()) {
             Coupon updatedCoupon = coupon.get();
@@ -53,7 +53,7 @@ public class CouponController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCoupon(@PathVariable Integer id) {
         if (couponService.getCouponById(id).isPresent()) {
             couponService.deleteCoupon(id);
             return ResponseEntity.noContent().build();

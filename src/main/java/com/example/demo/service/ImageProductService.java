@@ -18,7 +18,7 @@ public class ImageProductService {
         return imageProductRepository.findAll();
     }
 
-    public Optional<ImageProduct> getImageProductById(Long id) {
+    public Optional<ImageProduct> getImageProductById(Integer id) {
         return imageProductRepository.findById(id);
     }
 
@@ -26,10 +26,10 @@ public class ImageProductService {
         return imageProductRepository.save(imageProduct);
     }
 
-    public void deleteImageProduct(Long id) {
+    public void deleteImageProduct(Integer id) {
         imageProductRepository.deleteById(id);
     }
-    public List<ImageProduct> getImageProductsByProductId(Long prodId) {
+    public List<ImageProduct> getImageProductsByProductId(Integer prodId) {
         return imageProductRepository.findByProdId(prodId);
     }
 }

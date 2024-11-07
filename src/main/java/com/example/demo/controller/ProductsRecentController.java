@@ -20,7 +20,7 @@ public class ProductsRecentController {
     }
 
     @GetMapping("/{id}")
-    public ProductsRecent getProductRecentById(@PathVariable Long id) {
+    public ProductsRecent getProductRecentById(@PathVariable Integer id) {
         return productsRecentService.getProductRecentById(id);
     }
 
@@ -30,13 +30,13 @@ public class ProductsRecentController {
     }
 
     @PutMapping("/{id}")
-    public ProductsRecent updateProductRecent(@PathVariable Long id, @RequestBody ProductsRecent product) {
+    public ProductsRecent updateProductRecent(@PathVariable Integer id, @RequestBody ProductsRecent product) {
         product.setId(id);
         return productsRecentService.saveProductRecent(product);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProductRecent(@PathVariable Long id) {
+    public void deleteProductRecent(@PathVariable Integer id) {
         productsRecentService.deleteProductRecent(id);
     }
 }

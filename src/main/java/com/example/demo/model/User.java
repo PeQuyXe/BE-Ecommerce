@@ -1,21 +1,18 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "user")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String fullname;
     private String email;
@@ -24,19 +21,28 @@ public class User {
     private String address;
     private String phone;
 
-    @Column(name = "is_block")
-    private int isBlock;
+    @Column(name = "isBlock")
+    private Integer isBlock;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = true)
-    private Role role;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "access_Token", columnDefinition = "TEXT")
     private String accessToken;
 
-    @Column(length = 500)
+    @Column(name = "refresh_Token", length = 500)
     private String refreshToken;
 
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    @Column(name = "create_At")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+
+    @Column(name = "update_At")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateAt;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Role role;
+
+    @Column(name = "role_id")
+    private Integer roleId;
+
 }

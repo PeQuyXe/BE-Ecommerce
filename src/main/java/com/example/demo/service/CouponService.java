@@ -18,7 +18,7 @@ public class CouponService {
         return couponRepository.findAll();
     }
 
-    public Optional<Coupon> getCouponById(Long id) {
+    public Optional<Coupon> getCouponById(Integer id) {
         return couponRepository.findById(id);
     }
 
@@ -26,7 +26,7 @@ public class CouponService {
         return couponRepository.save(coupon);
     }
 
-    public void deleteCoupon(Long id) {
+    public void deleteCoupon(Integer id) {
         couponRepository.deleteById(id);
     }
 }

@@ -22,12 +22,12 @@ public class ImageProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ImageProduct> getImageProductById(@PathVariable Long id) {
+    public ResponseEntity<ImageProduct> getImageProductById(@PathVariable Integer id) {
         Optional<ImageProduct> imageProduct = imageProductService.getImageProductById(id);
         return imageProduct.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/product/{productId}")
-    public ResponseEntity<List<ImageProduct>> getImageProductsByProductId(@PathVariable Long productId) {
+    public ResponseEntity<List<ImageProduct>> getImageProductsByProductId(@PathVariable Integer productId) {
         List<ImageProduct> imageProducts = imageProductService.getImageProductsByProductId(productId);
         if (imageProducts.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -42,7 +42,7 @@ public class ImageProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ImageProduct> updateImageProduct(@PathVariable Long id, @RequestBody ImageProduct imageProductDetails) {
+    public ResponseEntity<ImageProduct> updateImageProduct(@PathVariable Integer id, @RequestBody ImageProduct imageProductDetails) {
         Optional<ImageProduct> imageProduct = imageProductService.getImageProductById(id);
         if (imageProduct.isPresent()) {
             ImageProduct updatedImageProduct = imageProduct.get();
@@ -56,7 +56,7 @@ public class ImageProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteImageProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteImageProduct(@PathVariable Integer id) {
         if (imageProductService.getImageProductById(id).isPresent()) {
             imageProductService.deleteImageProduct(id);
             return ResponseEntity.noContent().build();

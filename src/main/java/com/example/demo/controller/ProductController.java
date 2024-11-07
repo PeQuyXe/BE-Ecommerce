@@ -24,7 +24,7 @@ public class ProductController {
 
     // Lấy thông tin sản phẩm theo ID
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
         Product product = productService.getProductById(id);
         return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
     }
@@ -39,7 +39,7 @@ public class ProductController {
     // Cập nhật sản phẩm theo ID
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(
-            @PathVariable Long id, @RequestBody Product product) {
+            @PathVariable Integer id, @RequestBody Product product) {
         Product existingProduct = productService.getProductById(id);
         if (existingProduct != null) {
             product.setId(id);
@@ -59,7 +59,7 @@ public class ProductController {
 
     // Xóa sản phẩm theo ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         Product existingProduct = productService.getProductById(id);
         if (existingProduct != null) {
             productService.deleteProduct(id);

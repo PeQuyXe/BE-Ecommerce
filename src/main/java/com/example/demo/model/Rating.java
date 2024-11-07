@@ -10,10 +10,10 @@ public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Long prodId;
-    private Long userId;
+    private Integer prodId;
+    private Integer userId;
 
     private int star;
     private String comment;
