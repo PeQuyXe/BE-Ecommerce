@@ -11,6 +11,7 @@ public class ImageProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String image;
+    @Column(name="prod_id")
     private Integer prodId;
 
 // Getters and Setters

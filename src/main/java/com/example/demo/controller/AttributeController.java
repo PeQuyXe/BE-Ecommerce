@@ -17,7 +17,7 @@ public class AttributeController {
 
     @GetMapping
     public List<Attribute> getAllAttributes() {
-        return attributeService.getAllAttributes();
+        return attributeService.getAllAttributes(); // Trả về danh sách thuộc tính, bao gồm cả giá trị thuộc tính
     }
 
     @GetMapping("/{id}")
@@ -54,6 +54,7 @@ public class AttributeController {
     public AttributeValue createAttributeValue(@RequestBody AttributeValue attributeValue) {
         return attributeService.createAttributeValue(attributeValue);
     }
+
 
     @DeleteMapping("/value/{id}")
     public boolean deleteAttributeValue(@PathVariable Integer id) {

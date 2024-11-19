@@ -32,4 +32,5 @@ public class ImageProductService {
     public List<ImageProduct> getImageProductsByProductId(Integer prodId) {
         return imageProductRepository.findByProdId(prodId);
     }
+
 }

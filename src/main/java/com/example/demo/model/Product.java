@@ -1,18 +1,19 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "product")
 
 public class Product {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -55,9 +56,9 @@ public class Product {
     private int view;
 
     @Column(name = "create_at", columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+    private Date createAt;
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP")
-    private LocalDateTime updatedAt;
+    private Date updateAt;
 
 }

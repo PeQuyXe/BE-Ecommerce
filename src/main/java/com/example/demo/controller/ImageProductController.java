@@ -35,7 +35,6 @@ public class ImageProductController {
             return ResponseEntity.ok(imageProducts);
         }
     }
-
     @PostMapping
     public ImageProduct createImageProduct(@RequestBody ImageProduct imageProduct) {
         return imageProductService.saveImageProduct(imageProduct);

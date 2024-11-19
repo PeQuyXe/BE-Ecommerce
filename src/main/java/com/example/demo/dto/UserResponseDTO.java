@@ -5,9 +5,11 @@ import lombok.Data;
 
 import java.util.Date;
 
+
 @Data
 public class UserResponseDTO {
     private String accessToken;
+    private String refreshToken;
     private Integer id;
     private String fullname;
     private String email;
@@ -15,7 +17,7 @@ public class UserResponseDTO {
     private Integer roleId;
     private Date createAt;
 
-    public UserResponseDTO(User user, String accessToken) {
+    public UserResponseDTO(User user, String accessToken , String refreshToken) {
         this.accessToken = accessToken;
         this.id = user.getId();
         this.fullname = user.getFullname();
@@ -23,6 +25,7 @@ public class UserResponseDTO {
         this.avatar = user.getAvatar();
         this.roleId = user.getRoleId();
         this.createAt = user.getCreateAt();
+        this.refreshToken = accessToken;
     }
 
     // Getters và Setters

@@ -13,9 +13,9 @@ public class NewsDTO {
     private String thumb;
     private String slug;
     private Integer view;
-    private String status;  // "true" hoặc "false"
-    private LocalDateTime createAt;  // Dùng LocalDateTime thay vì Date
-    private LocalDateTime updateAt;  // Dùng LocalDateTime thay vì Date
+    private String status;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     // Constructor không tham số
     public NewsDTO() {}

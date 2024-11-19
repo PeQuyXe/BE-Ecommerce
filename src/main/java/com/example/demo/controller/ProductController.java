@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.ProductService;
+import com.example.demo.model.Category;
 import com.example.demo.model.Product;
+import com.example.demo.service.ProductService;
+import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -14,6 +18,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     // Lấy tất cả sản phẩm
     @GetMapping
@@ -32,6 +39,11 @@ public class ProductController {
     // Thêm sản phẩm mới
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+
+        String title = product.getTitle();
+        product.setCreateAt(new Date());
+        product.setUpdateAt(new Date());
+        product.setSlug(title);
         Product savedProduct = productService.saveProduct(product);
         return ResponseEntity.ok(savedProduct);
     }
@@ -42,12 +54,20 @@ public class ProductController {
             @PathVariable Integer id, @RequestBody Product product) {
         Product existingProduct = productService.getProductById(id);
         if (existingProduct != null) {
+            product.setUpdateAt(new Date());
             product.setId(id);
             Product updatedProduct = productService.saveProduct(product);
             return ResponseEntity.ok(updatedProduct);
         } else {
             return ResponseEntity.notFound().build(); // Trả về 404 nếu không tìm thấy
         }
+    }
+
+    // Lấy danh sách danh mục
+    @GetMapping("/categories")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = categoryService.getAllCategories();
+        return ResponseEntity.ok(categories);
     }
 
     // Lấy sản phẩm theo danh mục (categoryId)

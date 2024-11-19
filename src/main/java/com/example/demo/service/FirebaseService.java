@@ -27,45 +27,44 @@ public class FirebaseService {
     private PasswordEncoder passwordEncoder;
 
     /**
-     * Authenticates a Google user based on the provided Google access token, and retrieves or creates
-     * a user in the database, generating a JWT token for the session.
-     *
-     * @param googleAccessToken The Google ID token from the client.
-     * @return UserResponseDTO containing user information and the JWT token.
-     * @throws FirebaseAuthException if token verification fails.
+     * Xác thực người dùng Google và tạo JWT cho phiên làm việc
      */
     public UserResponseDTO authenticateGoogleUser(String googleAccessToken) throws FirebaseAuthException {
-        // Verify the Google access token with Firebase
+        // Xác thực Google token qua Firebase
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(googleAccessToken);
         String email = decodedToken.getEmail();
         String uid = decodedToken.getUid();
         String name = (String) decodedToken.getClaims().get("name");
         String picture = (String) decodedToken.getClaims().get("picture");
 
-        // Check if the user already exists
+        // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User user;
 
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
-            user.setAccessToken(googleAccessToken);
+            user.setAccessToken(googleAccessToken); // Cập nhật accessToken nếu người dùng đã tồn tại
         } else {
-            // Create a new user if not found
+            // Nếu người dùng chưa tồn tại, tạo mới người dùng
             user = new User();
             user.setEmail(email);
             user.setFullname(name);
-            user.setPassword(passwordEncoder.encode(uid)); // Use UID as the password, securely hashed
+            user.setPassword(passwordEncoder.encode(uid)); // Mã hóa uid để sử dụng tạm thời làm mật khẩu
             user.setAvatar(picture);
-            user.setRoleId(3); // Assign a default role ID, adjust as needed
-            user.setAccessToken(googleAccessToken);
+            user.setRoleId(3); // Gán role mặc định (ví dụ: người dùng thông thường)
             user.setCreateAt(new Date());
+            user.setIsBlock(0); // Mặc định không bị khóa
         }
 
+        // Lưu hoặc cập nhật người dùng
         userRepository.save(user);
 
-        // Generate a JWT token for the authenticated user
-        String jwtToken = jwtTokenUtil.generateToken(user.getEmail(), 5 * 60 * 1000);
+        // Tạo accessToken và refreshToken cho người dùng
+        String accessToken = jwtTokenUtil.generateAccessToken(user.getEmail(), user.getRoleId(), user.getId()); // Sử dụng user.getId() nếu cần
+        String refreshToken = jwtTokenUtil.generateRefreshToken(user.getEmail(), user.getRoleId(), user.getId());
+        user.setRefreshToken(refreshToken);
 
-        return new UserResponseDTO(user, jwtToken);
+        // Trả về UserResponseDTO với thông tin người dùng và các token
+        return new UserResponseDTO(user, accessToken, refreshToken);
     }
 }

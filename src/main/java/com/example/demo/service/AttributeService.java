@@ -19,7 +19,7 @@ public class AttributeService {
     private AttributeValueRepository attributeValueRepository;
 
     public List<Attribute> getAllAttributes() {
-        return attributeRepository.findAll();
+        return attributeRepository.findAll(); // Lấy tất cả các thuộc tính cùng với các giá trị tương ứng
     }
 
     public Attribute getAttributeById(Integer id) {

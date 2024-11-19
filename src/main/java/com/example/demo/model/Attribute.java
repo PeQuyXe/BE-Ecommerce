@@ -1,8 +1,11 @@
+// Attribute.java
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
+import java.util.List;
 
 @Data
 @Entity
@@ -15,5 +18,7 @@ public class Attribute {
     private String name;
     private String displayName;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<AttributeValue> values;
 }

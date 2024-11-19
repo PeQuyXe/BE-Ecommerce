@@ -3,6 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 public class Coupon {
@@ -15,7 +17,7 @@ public class Coupon {
     private Double value;
     @Column(name="min_amount")
     private Integer minAmount;
-    private String expired;
+    private Date expired;
     private Integer quantity;
     private String status;
 

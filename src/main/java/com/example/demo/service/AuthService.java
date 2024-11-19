@@ -4,9 +4,10 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 
@@ -17,10 +18,10 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private PasswordEncoder passwordEncoder;
 
     public String registerUser(String fullname, String email, String password, Date createAt , String avatar, Integer isBlock) {
         if (userRepository.existsByEmail(email)) {
@@ -38,15 +39,18 @@ public class AuthService {
         return "Đăng ký thành công";
     }
 
-
     public Optional<String> authenticate(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword())) {
             User user = userOpt.get();
 
-            // Tạo accessToken và refreshToken
-            String accessToken = jwtTokenUtil.generateAccessToken(email);
-            String refreshToken = jwtTokenUtil.generateRefreshToken(email);
+            // Lấy thông tin từ user
+            Integer roleId = user.getRoleId();
+            Integer userId = user.getId();
+
+            // Tạo accessToken và refreshToken với email, roleId và userId
+            String accessToken = jwtTokenUtil.generateAccessToken(email, roleId, userId);
+            String refreshToken = jwtTokenUtil.generateRefreshToken(email, roleId, userId);
 
             // Lưu accessToken và refreshToken vào User
             user.setAccessToken(accessToken);
@@ -59,19 +63,38 @@ public class AuthService {
         return Optional.empty();
     }
 
-
-//    public String generateRefreshToken(String email) {
-//        return jwtTokenUtil.generateRefreshToken(email);
-//    }
-
-    public boolean validateRefreshToken(String refreshToken) {
-        return jwtTokenUtil.validateToken(refreshToken);
+    /**
+     * Trích xuất roleId từ token trong request
+     */
+    public Integer extractRoleFromRequest(HttpServletRequest request) {
+        String token = getTokenFromRequest(request);
+        if (token != null) {
+            return jwtTokenUtil.extractRoleId(token);
+        }
+        return null;
     }
 
-    public String getEmailFromToken(String token) {
-        return jwtTokenUtil.extractEmail(token);
+    /**
+     * Trích xuất userId từ token trong request
+     */
+    public Integer extractUserIdFromRequest(HttpServletRequest request) {
+        String token = getTokenFromRequest(request);
+        if (token != null) {
+            return jwtTokenUtil.extractUserId(token);
+        }
+        return null;
     }
-    public String generateAccessToken(String email) {
-        return jwtTokenUtil.generateAccessToken(email);
+
+    /**
+     * Lấy token từ header request
+     */
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+        return null;
     }
+
+    // Các phương thức khác như đăng ký, xác thực, tạo token, etc.
 }
