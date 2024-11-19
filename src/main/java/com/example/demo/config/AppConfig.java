@@ -10,7 +10,7 @@ public class AppConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-
+        config.addAllowedOrigin("https://boiling-harbor-25599-6703135729eb.herokuapp.com/");
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
