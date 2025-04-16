@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "order_code", nullable = false, length = 50)
     private String orderCode;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     private Integer userId;
 
     @Column(name = "fullname", nullable = false, length = 50)
@@ -45,6 +45,11 @@ public class Order {
 
     @Column(name = "coupon_id")
     private Integer couponId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; // Liên kết với tài khoản người dùng
+
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference // Quản lý quan hệ chính để tránh vòng lặp

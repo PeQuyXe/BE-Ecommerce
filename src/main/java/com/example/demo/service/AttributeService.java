@@ -19,7 +19,7 @@ public class AttributeService {
     private AttributeValueRepository attributeValueRepository;
 
     public List<Attribute> getAllAttributes() {
-        return attributeRepository.findAll(); // Lấy tất cả các thuộc tính cùng với các giá trị tương ứng
+        return attributeRepository.findAll();
     }
 
     public Attribute getAttributeById(Integer id) {
@@ -41,7 +41,7 @@ public class AttributeService {
     public boolean deleteAttribute(Integer id) {
         if (attributeRepository.existsById(id)) {
             attributeRepository.deleteById(id);
-            attributeValueRepository.deleteByAttributeId(id);  // Xoá giá trị thuộc tính liên quan
+            attributeValueRepository.deleteByAttributeId(id);
             return true;
         }
         return false;

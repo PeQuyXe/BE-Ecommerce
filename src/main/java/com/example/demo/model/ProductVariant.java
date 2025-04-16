@@ -34,7 +34,7 @@ public class ProductVariant {
     private Integer id;
 
     @Column(name = "prod_id", nullable = false)
-    private Integer prodId; // Assuming this refers to a Product entity
+    private Integer prodId;
 
     @Column(name = "price")
     private Integer price;

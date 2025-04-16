@@ -14,7 +14,7 @@ public class RatingDTO {
     private String title;
     private Integer star;
     private String comment;
-    private Integer status;  // Thay đổi kiểu dữ liệu từ Boolean thành Integer
+    private Integer status;
 
     // Constructor
     public RatingDTO(Integer id, LocalDateTime createAt, LocalDateTime updateAt, String title, Integer star, String comment, Integer status, Integer userId, Integer prodId) {

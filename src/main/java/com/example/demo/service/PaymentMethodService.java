@@ -13,17 +13,14 @@ public class PaymentMethodService {
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
 
-    // Get all payment methods
     public List<PaymentMethod> getAllPaymentMethods() {
         return paymentMethodRepository.findAll();
     }
 
-    // Create a new payment method
     public PaymentMethod createPaymentMethod(PaymentMethod paymentMethod) {
         return paymentMethodRepository.save(paymentMethod);
     }
 
-    // Update an existing payment method
     public PaymentMethod updatePaymentMethod(Long id, PaymentMethod paymentMethod) {
         PaymentMethod existingPaymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException("Payment Method not found"));
         existingPaymentMethod.setName(paymentMethod.getName());
@@ -33,7 +30,6 @@ public class PaymentMethodService {
         return paymentMethodRepository.save(existingPaymentMethod);
     }
 
-    // Delete a payment method
     public void deletePaymentMethod(Long id) {
         PaymentMethod paymentMethod = paymentMethodRepository.findById(id).orElseThrow(() -> new RuntimeException("Payment Method not found"));
         paymentMethodRepository.delete(paymentMethod);

@@ -20,12 +20,9 @@ public class OrderRequest {
     private OrderStatusRequest orderStatus;
     private List<OrderItemRequest> orderItems;
 
-    // Getters và setters...
     @Data
     public static class OrderStatusRequest {
         private Integer id;
-
-        // Getters và setters...
     }
     @Data
     public static class OrderItemRequest {
@@ -33,7 +30,5 @@ public class OrderRequest {
         private Integer quantity;
         private Integer price;
         private Integer totalMoney;
-
-        // Getters và setters...
     }
 }

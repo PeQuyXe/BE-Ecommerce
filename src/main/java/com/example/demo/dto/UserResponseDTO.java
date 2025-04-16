@@ -27,6 +27,4 @@ public class UserResponseDTO {
         this.createAt = user.getCreateAt();
         this.refreshToken = accessToken;
     }
-
-    // Getters và Setters
 }

@@ -33,9 +33,7 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    /**
-     * Đăng ký người dùng mới
-     */
+    // Đăng ký người dùng mới
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
         String fullname = request.get("fullname");
@@ -54,9 +52,7 @@ public class AuthController {
         }
     }
 
-    /**
-     * Đăng nhập người dùng
-     */
+    // Đăng nhập
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -75,7 +71,7 @@ public class AuthController {
                 // Tạo refreshToken
                 String refreshToken = jwtTokenUtil.generateRefreshToken(email, roleId, userId);
 
-                // Tạo phản hồi chứa thông tin người dùng
+                // Tạo phản hổi frontend chứa thông tin người dùng
                 Map<String, Object> response = new HashMap<>();
                 response.put("id", user.getId());
                 response.put("password", user.getPassword());
@@ -97,9 +93,7 @@ public class AuthController {
         return ResponseEntity.status(401).body("Thông tin đăng nhập không chính xác");
     }
 
-    /**
-     * Xác thực người dùng qua Google
-     */
+    // Xác thực người dùng qua firebase
     @PostMapping(value = "/google", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> authenticateGoogleUser(@RequestBody Map<String, String> request) {
         String googleAccessToken = request.get("token");
@@ -112,9 +106,7 @@ public class AuthController {
         }
     }
 
-    /**
-     * Làm mới accessToken bằng refreshToken
-     */
+    // Làm mới accessToken và refreshToken
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
         String refreshToken = request.get("refreshToken");

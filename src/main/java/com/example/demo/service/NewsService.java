@@ -79,7 +79,6 @@ public class NewsService {
         newsRepository.deleteById(id);
     }
 
-    // Helper method to convert Date to LocalDateTime
     private LocalDateTime toLocalDateTime(Date date) {
         if (date != null) {
             return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());

@@ -17,7 +17,7 @@ public class AttributeController {
 
     @GetMapping
     public List<Attribute> getAllAttributes() {
-        return attributeService.getAllAttributes(); // Trả về danh sách thuộc tính, bao gồm cả giá trị thuộc tính
+        return attributeService.getAllAttributes();
     }
 
     @GetMapping("/{id}")

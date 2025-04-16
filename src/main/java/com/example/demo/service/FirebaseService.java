@@ -26,9 +26,8 @@ public class FirebaseService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * Xác thực người dùng Google và tạo JWT cho phiên làm việc
-     */
+    // Xác thực người dùng Google và tạo JWT cho phiên làm việc
+
     public UserResponseDTO authenticateGoogleUser(String googleAccessToken) throws FirebaseAuthException {
         // Xác thực Google token qua Firebase
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(googleAccessToken);

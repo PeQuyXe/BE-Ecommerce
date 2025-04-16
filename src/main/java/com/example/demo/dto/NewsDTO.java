@@ -17,7 +17,6 @@ public class NewsDTO {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
-    // Constructor không tham số
     public NewsDTO() {}
 
     // Constructor để chuyển từ News entity sang NewsDTO

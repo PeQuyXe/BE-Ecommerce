@@ -36,16 +36,13 @@ public class ProductVariantsService {
         return productRepository.findById(productVariant.getProdId())
                 .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productVariant.getProdId()));
     }
-    /**
-     * Lấy danh sách tất cả các biến thể của sản phẩm dựa theo prodId.
-     */
+    // Lấy danh sách tất cả các biến thể của sản phẩm dựa theo prodId.
     public List<ProductVariant> getProductVariantsByProductId(Integer prodId) {
         return productVariantRepository.findByProdId(prodId);
     }
 
-    /**
-     * Tạo và lưu biến thể sản phẩm cùng các giá trị thuộc tính liên quan.
-     */
+    // Tạo và lưu biến thể sản phẩm cùng các giá trị thuộc tính liên quan.
+
     public void createProductVariant(Integer prodId, VariantDetailDTO variantDetail) {
         // 1. Tạo và lưu thông tin biến thể sản phẩm
         ProductVariant variant = new ProductVariant();
@@ -80,29 +77,39 @@ public class ProductVariantsService {
         variantsValueRepository.saveAll(variantsValues);
     }
 
-    /**
-     * Tạo map các thuộc tính từ DTO
-     */
+    // Tạo map các thuộc tính từ DTO
+
+//    private Map<String, String> createAttributesMap(VariantDetailDTO variantDetail) {
+//        Map<String, String> attributes = new HashMap<>();
+//        attributes.put("color", variantDetail.getColor());
+//        attributes.put("ram", variantDetail.getRam());
+//        attributes.put("rom", variantDetail.getRom());
+//        attributes.put("pin", variantDetail.getPin());
+//        return attributes;
+//    }
     private Map<String, String> createAttributesMap(VariantDetailDTO variantDetail) {
-        Map<String, String> attributes = new HashMap<>();
-        attributes.put("color", variantDetail.getColor());
-        attributes.put("ram", variantDetail.getRam());
-        attributes.put("rom", variantDetail.getRom());
-        attributes.put("pin", variantDetail.getPin());
-        return attributes;
+        if (variantDetail.getVariantValues() == null) {
+            return Collections.emptyMap(); // ✅ Tránh lỗi null
+        }
+
+        return variantDetail.getVariantValues().stream()
+                .filter(v -> v.getAttribute() != null && v.getAttributeValue() != null) // ✅ Lọc bỏ giá trị null
+                .collect(Collectors.toMap(
+                        v -> v.getAttribute().getName(),  // 🔹 Key: Tên thuộc tính (VD: "Màu sắc")
+                        v -> v.getAttributeValue().getValueName() // 🔹 Value: Giá trị thuộc tính (VD: "Đỏ")
+                ));
     }
 
-    /**
-     * Lấy hoặc tạo mới Attribute theo tên
-     */
+
+    // Lấy hoặc tạo mới Attribute theo tên
+
     private Attribute getAttributeByName(String attributeName) {
         Optional<Attribute> attributeOptional = attributeRepository.findByName(attributeName);
         return attributeOptional.orElse(null);
     }
 
-    /**
-     * Lấy hoặc tạo mới AttributeValue theo Attribute và giá trị.
-     */
+    // Lấy hoặc tạo mới AttributeValue theo Attribute và giá trị.
+
     private AttributeValue getOrCreateAttributeValue(Attribute attribute, String valueName) {
         Optional<AttributeValue> attributeValueOptional = attributeValueRepository.findByAttributeAndValueName(attribute, valueName);
         return attributeValueOptional.orElseGet(() -> {
@@ -113,16 +120,14 @@ public class ProductVariantsService {
         });
     }
 
-    /**
-     * Lấy thông tin các giá trị biến thể (attribute và attribute value) của một biến thể sản phẩm cụ thể.
-     */
+    // Lấy thông tin các giá trị biến thể (attribute và attribute value) của một biến thể sản phẩm cụ thể.
+
     public List<VariantsValue> getVariantsValuesByProductVariantId(Integer productVariantId) {
         return variantsValueRepository.findByProductVariant_Id(productVariantId);
     }
 
-    /**
-     * Lấy chi tiết tất cả các biến thể và giá trị tương ứng cho một sản phẩm.
-     */
+    // Lấy chi tiết tất cả các biến thể và giá trị tương ứng cho một sản phẩm.
+
     public List<VariantDetailDTO> getVariantDetailsByProductId(Integer prodId) {
         List<ProductVariant> productVariants = getProductVariantsByProductId(prodId);
         return productVariants.stream().map(variant -> {
@@ -131,9 +136,8 @@ public class ProductVariantsService {
         }).collect(Collectors.toList());
     }
 
-    /**
-     * Cập nhật thông tin của một biến thể sản phẩm.
-     */
+    // Cập nhật thông tin của một biến thể sản phẩm.
+
     public void updateProductVariant(Integer variantId, VariantDetailDTO variantDetail) {
         Optional<ProductVariant> existingVariant = productVariantRepository.findById(variantId);
         if (existingVariant.isPresent()) {
@@ -146,9 +150,8 @@ public class ProductVariantsService {
         }
     }
 
-    /**
-     * Xóa một biến thể sản phẩm dựa trên variantId.
-     */
+    // Xóa một biến thể sản phẩm dựa trên variantId.
+
     public void deleteProductVariant(Integer variantId) {
         if (productVariantRepository.existsById(variantId)) {
             productVariantRepository.deleteById(variantId);

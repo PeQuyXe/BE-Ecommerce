@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUserId(Integer userId);
-
+    List<Order> findByOrderDateBetween(LocalDateTime start, LocalDateTime end);
     // Tính tổng doanh thu trong khoảng thời gian (startDate, endDate)
     @Query("SELECT SUM(o.totalMoney) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate")
     Double findTotalRevenue(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);

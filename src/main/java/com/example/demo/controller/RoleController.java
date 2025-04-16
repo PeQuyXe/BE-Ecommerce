@@ -16,13 +16,11 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    // Get all roles
     @GetMapping
     public List<Role> getAllRoles() {
         return roleService.getAllRoles();
     }
 
-    // Get role by ID
     @GetMapping("/{id}")
     public ResponseEntity<Role> getRoleById(@PathVariable Integer id) {
         Role role = roleService.getRoleById(id);
@@ -33,14 +31,12 @@ public class RoleController {
         }
     }
 
-    // Create new role
     @PostMapping
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
         Role createdRole = roleService.createRole(role);
         return ResponseEntity.ok(createdRole);
     }
 
-    // Update existing role
     @PutMapping("/{id}")
     public ResponseEntity<Role> updateRole(@PathVariable Integer id, @RequestBody Role roleDetails) {
         Role updatedRole = roleService.updateRole(id, roleDetails);
@@ -51,7 +47,6 @@ public class RoleController {
         }
     }
 
-    // Delete role by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRole(@PathVariable Integer id) {
         boolean isDeleted = roleService.deleteRole(id);

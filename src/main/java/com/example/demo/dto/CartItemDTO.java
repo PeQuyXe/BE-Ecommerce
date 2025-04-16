@@ -6,5 +6,5 @@ import lombok.Data;
 public class CartItemDTO {
     private Integer productVariantId;
     private Integer quantity;
-    private Integer price; // Giá sản phẩm (dùng để tính tổng giá trong `CartDTO`)
+    private Integer price;
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 @Data
 public class OrderItemDTO {
     private Integer id;
-//    private Integer productVariantId;
+    // private Integer productVariantId;
     private String productName;
     private Integer productId;
     private String productImage;

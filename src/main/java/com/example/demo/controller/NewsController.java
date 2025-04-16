@@ -27,7 +27,6 @@ public class NewsController {
 
     @PostMapping
     public ResponseEntity<String> saveNews(@RequestBody NewsDTO newsDTO) {
-        // Lưu bài viết
         newsService.saveNews(newsDTO);
         return ResponseEntity.ok("News created successfully");
     }
@@ -36,7 +35,6 @@ public class NewsController {
     public ResponseEntity<String> updateNews(
             @PathVariable("id") int id,
             @RequestBody NewsDTO newsDTO) {
-        // Cập nhật bài viết
         newsService.updateNews(id, newsDTO);
         return ResponseEntity.ok("News updated successfully");
     }

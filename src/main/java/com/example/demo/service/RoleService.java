@@ -15,22 +15,18 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    // Get all roles
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 
-    // Get role by ID
     public Role getRoleById(Integer id) {
         return roleRepository.findById(id).orElse(null);
     }
 
-    // Create new role
     public Role createRole(Role role) {
         return roleRepository.save(role);
     }
 
-    // Update existing role
     public Role updateRole(Integer id, Role roleDetails) {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
@@ -43,7 +39,6 @@ public class RoleService {
         }
     }
 
-    // Delete role by ID
     public boolean deleteRole(Integer id) {
         if (roleRepository.existsById(id)) {
             roleRepository.deleteById(id);

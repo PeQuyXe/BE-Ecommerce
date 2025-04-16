@@ -17,56 +17,50 @@ public class ProductVariantController {
         this.productVariantsService = productVariantsService;
     }
 
-    /**
-     * Lấy thông tin chi tiết tất cả các biến thể cho một sản phẩm dựa trên prodId
-     */
+    // Lấy thông tin chi tiết tất cả các biến thể cho một sản phẩm dựa trên prodId
+//    @GetMapping("/{prodId}")
+//    public ResponseEntity<List<VariantDetailDTO>> getVariantDetailsByProductId(@PathVariable Integer prodId) {
+//        List<VariantDetailDTO> variantDetails = productVariantsService.getVariantDetailsByProductId(prodId);
+//        return ResponseEntity.ok(variantDetails);
+//    }
     @GetMapping("/{prodId}")
     public ResponseEntity<List<VariantDetailDTO>> getVariantDetailsByProductId(@PathVariable Integer prodId) {
         List<VariantDetailDTO> variantDetails = productVariantsService.getVariantDetailsByProductId(prodId);
+
+        if (variantDetails.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
         return ResponseEntity.ok(variantDetails);
     }
 
-    /**
-     * Tạo mới một biến thể sản phẩm
-     */
+    // Tạo mới một biến thể sản phẩm
     @PostMapping("/{prodId}")
     public ResponseEntity<Void> createProductVariant(@PathVariable Integer prodId,
                                                      @RequestBody VariantDetailDTO variantDetail) {
         try {
-            // Lưu biến thể sản phẩm mới
             productVariantsService.createProductVariant(prodId, variantDetail);
-
-            // Trả về response thành công
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            // Log hoặc xử lý lỗi nếu có
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();  // Trả về lỗi nếu có sự cố
+            return ResponseEntity.badRequest().build();
         }
     }
 
-    /**
-     * Cập nhật thông tin của một biến thể sản phẩm
-     */
+    // Cập nhật thông tin của một biến thể sản phẩm
     @PutMapping("/update/{variantId}")
     public ResponseEntity<Void> updateProductVariant(@PathVariable Integer variantId,
                                                      @RequestBody VariantDetailDTO variantDetail) {
         try {
-            // Kiểm tra và cập nhật thông tin variant
             productVariantsService.updateProductVariant(variantId, variantDetail);
-
-            // Trả về response thành công
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            // Log hoặc xử lý lỗi nếu có
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();  // Trả về lỗi nếu có sự cố
+            return ResponseEntity.badRequest().build();
         }
     }
 
-    /**
-     * Xóa một biến thể sản phẩm dựa trên variantId
-     */
+    // Xóa một biến thể sản phẩm dựa trên variantId
     @DeleteMapping("/delete/{variantId}")
     public ResponseEntity<Void> deleteProductVariant(@PathVariable Integer variantId) {
         try {

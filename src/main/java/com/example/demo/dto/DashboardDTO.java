@@ -6,7 +6,7 @@ public class DashboardDTO {
     private double totalRevenue;
     private long totalSold;
 
-    // Constructor phù hợp
+
     public DashboardDTO(long prodCount, long userCount, double totalRevenue, long totalSold) {
         this.prodCount = prodCount;
         this.userCount = userCount;
@@ -14,7 +14,6 @@ public class DashboardDTO {
         this.totalSold = totalSold;
     }
 
-    // Getter và Setter
     public long getProdCount() {
         return prodCount;
     }

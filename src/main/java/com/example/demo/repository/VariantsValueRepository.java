@@ -10,4 +10,5 @@ import java.util.List;
 public interface VariantsValueRepository extends JpaRepository<VariantsValue, Integer> {
     List<VariantsValue> findByProductVariant_Id(Integer productVariantId);
     List<VariantsValue> findByProductVariant(ProductVariant productVariant);
+    List<VariantsValue> findByProductVariantId(Integer productVariantId);
 }

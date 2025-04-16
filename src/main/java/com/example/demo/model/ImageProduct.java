@@ -14,5 +14,4 @@ public class ImageProduct {
     @Column(name="prod_id")
     private Integer prodId;
 
-// Getters and Setters
 }

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -36,15 +37,30 @@ public class OrderService {
     @Autowired
     private VariantsValueRepository variantsValueRepository;
 
-    public Double getTotalRevenue(LocalDateTime startDate, LocalDateTime endDate) {
-        return orderRepository.findTotalRevenue(startDate, endDate);
-    }
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     // Tính tổng doanh thu từ tất cả đơn hàng
     public Double getTotalRevenue() {
         return orderRepository.findTotalRevenue();
     }
-    // Lấy tất cả đơn hàng
+    public Map<Integer, Double> getMonthlyRevenue(LocalDate startDate, LocalDate endDate) {
+        List<Order> orders = orderRepository.findByOrderDateBetween(
+                startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+
+        Map<Integer, Double> revenueByMonth = new HashMap<>();
+
+        for (Order order : orders) {
+            int month = order.getOrderDate().getMonthValue();
+            revenueByMonth.put(month, revenueByMonth.getOrDefault(month, 0.0) + order.getTotalMoney());
+        }
+
+        return revenueByMonth;
+    }
+
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -124,6 +140,10 @@ public class OrderService {
     }
     // Tạo đơn hàng mới
     public Order createOrder(OrderRequest orderRequest) {
+        // Lấy thông tin User từ userId
+        User user = userRepository.findById(orderRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         // Kiểm tra và lấy OrderStatus
         OrderStatus orderStatus = orderStatusRepository.findById(orderRequest.getOrderStatus().getId())
                 .orElseThrow(() -> new RuntimeException("OrderStatus not found"));
@@ -137,7 +157,7 @@ public class OrderService {
         order.setPhone(orderRequest.getPhone());
         order.setNote(orderRequest.getNote());
         order.setTotalMoney(orderRequest.getTotalMoney());
-        order.setUserId(orderRequest.getUserId());
+        order.setUser(user); // Gán đối tượng User thay vì chỉ userId
         order.setCouponId(orderRequest.getCouponId());
         order.setOrderStatus(orderStatus);
 
@@ -168,8 +188,11 @@ public class OrderService {
             orderItemRepository.save(orderItem);
         }
 
+        // Gửi email xác nhận đơn hàng
+        emailService.sendOrderConfirmationEmail(savedOrder);
         return savedOrder;
     }
+
     public Order updateOrderStatus(int orderId, int statusId) {
         // Tìm kiếm đơn hàng
         Order order = orderRepository.findById(orderId)

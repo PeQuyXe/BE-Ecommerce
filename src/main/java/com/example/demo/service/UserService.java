@@ -24,25 +24,18 @@ public class UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    /**
-     * Lấy tất cả người dùng
-     */
+
     public List<UserDTO> getAllUsers() {
         return userRepository.findAllUsersWithRoleDescription();
     }
 
-    /**
-     * Lấy người dùng theo ID
-     */
     public UserDTO getUserById(Integer id) {
         return userRepository.findById(id)
                 .map(this::convertToDTO)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    /**
-     * Tạo người dùng mới
-     */
+
     public User createUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -52,9 +45,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Cập nhật thông tin người dùng
-     */
+
     public User updateUser(Integer id, UserDTO userDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -78,16 +69,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Xóa người dùng
-     */
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 
-    /**
-     * Chuyển đổi từ Entity sang DTO
-     */
     private UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
@@ -104,9 +89,6 @@ public class UserService {
         return dto;
     }
 
-    /**
-     * Chuyển đổi từ DTO sang Entity
-     */
     private User convertToEntity(UserDTO dto) {
         User user = new User();
         user.setFullname(dto.getFullname());
@@ -120,23 +102,14 @@ public class UserService {
         return user;
     }
 
-    /**
-     * Tạo accessToken cho người dùng
-     */
     public String generateAccessToken(String email, Integer roleId , Integer userId) {
         return jwtTokenUtil.generateAccessToken(email, roleId, userId);
     }
 
-    /**
-     * Tạo refreshToken cho người dùng
-     */
     public String generateRefreshToken(String email, Integer roleId, Integer userId) {
         return jwtTokenUtil.generateRefreshToken(email, roleId, userId);
     }
 
-    /**
-     * Cập nhật accessToken và refreshToken của người dùng
-     */
     public void updateUserTokens(User user, String accessToken, String refreshToken) {
         user.setAccessToken(accessToken);
         user.setRefreshToken(refreshToken);

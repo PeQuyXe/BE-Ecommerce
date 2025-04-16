@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -48,17 +49,28 @@ public class DashboardController {
         return ResponseEntity.ok(products);
     }
 
-    // API để lấy tổng doanh thu trong khoảng thời gian
+    // Lấy tổng doanh thu trong khoảng thời gian
+//    @GetMapping("/total-revenue")
+//    public Double getTotalRevenue(
+//            @RequestParam("startDate") String startDate,
+//            @RequestParam("endDate") String endDate) {
+//
+//        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay(); // Start of the day (00:00:00)
+//        LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59); // End of the day (23:59:59)
+//
+//        return orderService.getTotalRevenue(start, end);
+//    }
     @GetMapping("/total-revenue")
-    public Double getTotalRevenue(
+    public Map<Integer, Double> getMonthlyRevenue(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) {
 
-        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay(); // Start of the day (00:00:00)
-        LocalDateTime end = LocalDate.parse(endDate).atTime(23, 59, 59); // End of the day (23:59:59)
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
 
-        return orderService.getTotalRevenue(start, end);
+        return orderService.getMonthlyRevenue(start, end);
     }
+
 
     // API để lấy tổng doanh thu từ tất cả đơn hàng
     @GetMapping("/total-revenue-all")

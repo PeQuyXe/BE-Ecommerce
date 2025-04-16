@@ -18,7 +18,6 @@ public class RatingController {
     @Autowired
     private RatingService ratingService;
 
-    // Lấy tất cả các rating
     @GetMapping
     public ResponseEntity<List<Rating>> getAllRatings() {
         List<Rating> ratings = ratingService.getAllRatings();

@@ -28,7 +28,6 @@ public class RatingService {
     @Autowired
     private UserRepository userRepository;
 
-    // Phương thức lấy tất cả các rating
     public List<Rating> getAllRatings() {
         return ratingRepository.findAll();
     }

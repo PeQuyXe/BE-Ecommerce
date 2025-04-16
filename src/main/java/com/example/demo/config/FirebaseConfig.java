@@ -26,8 +26,7 @@
 //        FirebaseApp.initializeApp(options);
 //    }
 //}
-package com.example.demo.config;
-//
+
 //import com.google.auth.oauth2.GoogleCredentials;
 //import com.google.firebase.FirebaseApp;
 //import com.google.firebase.FirebaseOptions;
@@ -70,6 +69,7 @@ package com.example.demo.config;
 //    }
 //}
 //
+package com.example.demo.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;

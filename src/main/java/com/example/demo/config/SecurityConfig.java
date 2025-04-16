@@ -40,9 +40,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/refresh-token").permitAll()
-                        // Cấu hình bảo mật dựa trên roleId
+
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")  // Kiểm tra quyền admin
-//                        .requestMatchers("/moderator/**").hasAuthority("ROLE_MODERATOR")  // Kiểm tra quyền moderator
                         .anyRequest().permitAll()  // Các yêu cầu khác phải xác thực
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -21,7 +21,6 @@ public class UserDTO {
     private Date updateAt;
 
     private String roleDescription;
-    // No-argument constructor
     public UserDTO() {
     }
     public UserDTO(Integer id, String fullname, String email, String password, String avatar,
