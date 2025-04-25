@@ -47,8 +47,8 @@ public class EmailService {
                 .append("📦 Trạng thái: ").append(order.getOrderStatus().getId()).append("\n\n")
                 .append("📍 Địa chỉ giao hàng:\n")
                 .append(order.getFullname()).append(" - ").append(order.getPhone()).append("\n")
-                .append(order.getAddress()).append("\n\n")
-                .append("🛍 Danh sách sản phẩm:\n");
+                .append(order.getAddress()).append("\n\n");
+//                .append("🛍 Danh sách sản phẩm:\n");
 
         List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getId());
 

@@ -7,7 +7,7 @@ import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.demo.service.SearchLogService;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +20,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SearchLogService searchLogService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
